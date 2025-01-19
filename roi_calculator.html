@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROI Calculator</title>
+    <style>
+        
+        ::-webkit-textfield-decoration-container {
+            display: inline-block;
+        }
+        
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #00000098;
+        }
+
+        .calculator {
+            width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #c7cae7;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .calculator h2 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .form-group input {
+            width: 40%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #e5e75b;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #629deb;
+            color: rgb(10, 5, 12);
+            border: solid 1px #010305;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 3px #666; /* Adds a shadow below the button */
+            transition: all 0.1s ease-in-out; /* Smooth transition for the 3D effect */
+        }
+        
+        .btn:hover {
+            background-color: #47bee2;
+        }
+        btn:active {
+            box-shadow: 0 2px #666; 
+            transform: translateY(4px);
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ffe8;
+            border: 1px solid #a6f1a3;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="calculator">
+        <h2 style="font-style: italic;">ROI Calculator</style></h2>
+        <div class="form-group">
+            <label for="investment">Investment Amount($):</label>
+            <input type="number" id="investment" placeholder="Enter Investment Amount">
+        </div>
+        <div class="form-group">
+            <label for="gain">Total Gain($):</label>
+            <input type="number" id="gain" placeholder="Enter Total Gain">
+        </div>
+        <button class="btn" onclick="calculateROI()">Calculate ROI</button>
+        <div id="result" style="display:none;"></div>
+        <button class="btn" style="margin-top: 10px;" onclick="downloadPDF()">Download PDF</button>
+    </div>
+
+    <script>
+        function calculateROI() {
+            const investment = parseFloat(document.getElementById('investment').value);
+            const gain = parseFloat(document.getElementById('gain').value);
+            if (isNaN(investment) || isNaN(gain) || investment <= 0) {
+                alert('Please enter valid numbers for investment and gain.');
+                return;
+            }
+            const roi = ((gain - investment) / investment) * 100;
+            const resultElement = document.getElementById('result');
+            resultElement.style.display = 'block';
+            resultElement.textContent = `ROI: ${roi.toFixed(2)}%`;
+        }
+
+        function downloadPDF() {
+            const element = document.querySelector('.calculator');
+            html2pdf().from(element).save('ROI_Calculator.pdf');
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+</body>
+
+</html>
